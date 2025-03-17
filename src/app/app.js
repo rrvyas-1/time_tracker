@@ -7,9 +7,13 @@ const morganMiddleware = require("../middlewares/morganMiddleware");
 const { globalErrorHandler, notFoundError } = require("../middlewares/globalErrorHandler");
 const userRoutes = require("../routes/user.routes");
 const sodEodRoutes = require("../routes/sodEod.routes");
+const exphbs = require("express-handlebars");
+const path = require('path')
+
 
 
 const app = express();
+
 app.use(morganMiddleware)
 const corsOption = {
     origin: "*",
@@ -21,7 +25,17 @@ app.use(bodyParser.json());
 baseUrl = "/api/v1/"
 app.use(`${baseUrl}user`, userRoutes);
 app.use(`${baseUrl}sod-eod`, sodEodRoutes);
-
+app.engine("hbs", exphbs.engine({ extname: "hbs", defaultLayout: "main" }));
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "../views"));
+// Serve static files
+app.use(express.static(path.join(__dirname, "public")));
+app.get("/login", (req, res) => {
+    res.render("login",);
+});
+app.get("/register", (req, res) => {
+    res.render("register",);
+});
 //Not Found Error
 app.use(notFoundError);
 //Global Error Handler

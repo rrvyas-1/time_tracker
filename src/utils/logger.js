@@ -15,7 +15,7 @@ const logger = winston.createLogger({
                 info: "green",
                 warn: "yellow",
                 error: "red",
-                http: "magenta",
+                http: "green",
             },
         }),
         timestamp({
