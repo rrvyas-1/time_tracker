@@ -1,9 +1,14 @@
-const roleRestriction = (...roles) => {
+const { ApiResponse } = require("../utils/responseHandler");
+
+const roleRestriction = (...allowedRoles) => {
     return (req, res, next) => {
-        if (!roles.includes(req.userAuth.role)) {
-            const err = new Error("You do not have permission to access it");
-            next(err);
+        if (!req.userAuth || !req.userAuth.role) {
+            return ApiResponse.error(res, "Unauthorized: No user role found", 403);
         }
+        if (!allowedRoles.includes(req.userAuth.role)) {
+            return ApiResponse.error(res, "Forbidden: You don't have permission to access this", 403);
+        }
+
         next();
     };
 };

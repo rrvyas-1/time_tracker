@@ -1,5 +1,6 @@
 
 const logger = require("../utils/logger");
+const { ApiResponse, ApiError } = require("../utils/responseHandler");
 
 const globalErrorHandler = (err, req, res, next) => {
     logger.error(err.message);
@@ -9,15 +10,14 @@ const globalErrorHandler = (err, req, res, next) => {
     const statusCode = err.statusCode ? err.statusCode : 500;
     res.status(statusCode).json({
         status,
+        statusCode,
         message,
         stack,
     });
 };
 
 const notFoundError = (req, res, next) => {
-    const err = new Error(`can't find ${req.originalUrl} on the server`);
-    err.statusCode = 404;
-    next(err);
+    return ApiResponse.error(res, `can't find ${req.originalUrl} on the server`, 404)
 };
 
 module.exports = { globalErrorHandler, notFoundError };
