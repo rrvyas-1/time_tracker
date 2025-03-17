@@ -1,4 +1,4 @@
-<div class="w-full max-w-md bg-white rounded-lg shadow-md p-6">
+{{! <div class="w-full max-w-md bg-white rounded-lg shadow-md p-6">
     <h2 class="text-2xl font-bold text-center text-gray-800">Register</h2>
     <form action="/register" method="POST" class="mt-4">
 
@@ -52,4 +52,133 @@
     <p class="mt-4 text-center text-gray-600">
         Already have an account? <a href="/login" class="text-blue-500">Login</a>
     </p>
+</div> }}
+
+<div class="flex items-center justify-center min-h-screen py-10">
+  <!-- Register Container -->
+  <div
+    class="flex w-full max-w-4xl bg-white shadow-lg rounded-xl overflow-hidden"
+  >
+
+    <!-- Left Section (Register Form) -->
+    <div
+      class="w-full md:w-1/2 flex flex-col items-center justify-center px-8 md:px-16 py-10"
+    >
+      <div class="w-full max-w-md">
+        <h2 class="text-3xl font-bold text-gray-800 pt-10 text-left">
+          Create an Account<span class="text-blue-600">!</span>
+        </h2>
+        <p class="text-gray-500 mt-2 text-left">
+          Join us to track time, improve productivity, and manage your work
+          better!
+        </p>
+
+        <form id="registerForm" action="/register" method="POST" class="mt-6">
+          <!-- User Name -->
+          <div class="mb-4">
+            <label class="block text-gray-700 font-medium">User Name
+              <span class="text-red-500">*</span></label>
+            <input
+              type="text"
+              name="userName"
+              required
+              placeholder="Enter your name"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <!-- Email -->
+          <div class="mb-4">
+            <label class="block text-gray-700 font-medium">Email
+              <span class="text-red-500">*</span></label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              required
+              placeholder="Enter your email"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <p id="emailError" class="text-red-500 text-sm mt-1 hidden">Invalid
+              email format</p>
+          </div>
+
+          <!-- Password -->
+          <div class="mb-4">
+            <label class="block text-gray-700 font-medium">Password
+              <span class="text-red-500">*</span></label>
+            <input
+              type="password"
+              name="password"
+              required
+              placeholder="Enter password"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <!-- Designation -->
+          <div class="mb-4">
+            <label class="block text-gray-700 font-medium">Designation
+              <span class="text-red-500">*</span></label>
+            <select
+              name="designation"
+              required
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Select Designation</option>
+              <option value="Manager">Manager</option>
+              <option value="Developer">Developer</option>
+              <option value="Designer">Designer</option>
+              <option value="HR">HR</option>
+            </select>
+          </div>
+
+          <!-- Salary -->
+          <div class="mb-4">
+            <label class="block text-gray-700 font-medium">Salary
+              <span class="text-red-500">*</span></label>
+            <input
+              type="number"
+              name="salary"
+              required
+              placeholder="Enter salary"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <!-- Register Button -->
+          <button
+            type="submit"
+            class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition mb-6"
+          >
+            Register
+          </button>
+        </form>
+
+        <p class="mt-4 text-center text-gray-600">
+          Already have an account?
+          <a href="/login" class="text-blue-500 hover:underline">Login</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Right Section (Image) -->
+    <div class="hidden md:block w-1/2">
+      <img
+        src="/images/login-bg.png"
+        alt="Register Background"
+        class="w-full h-full object-center"
+      />
+    </div>
+  </div>
 </div>
+
+<script>
+  document.getElementById("registerForm").addEventListener("submit",
+  function(event) { const emailInput = document.getElementById("email"); const
+  emailError = document.getElementById("emailError"); // Regular expression for
+  a valid email const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; if
+  (!emailRegex.test(emailInput.value)) { emailError.classList.remove("hidden");
+  // Show error message event.preventDefault(); // Stop form submission } else {
+  emailError.classList.add("hidden"); // Hide error if valid } });
+</script>

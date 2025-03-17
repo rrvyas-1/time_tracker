@@ -1,40 +1,42 @@
-
 const bodyParser = require("body-parser");
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const morganMiddleware = require("../middlewares/morganMiddleware");
-const { globalErrorHandler, notFoundError } = require("../middlewares/globalErrorHandler");
+const {
+  globalErrorHandler,
+  notFoundError,
+} = require("../middlewares/globalErrorHandler");
 const userRoutes = require("../routes/user.routes");
 const sodEodRoutes = require("../routes/sodEod.routes");
 const exphbs = require("express-handlebars");
-const path = require('path')
-
-
+const path = require("path");
+const logger = require("../utils/logger");
 
 const app = express();
 
-app.use(morganMiddleware)
+app.use(morganMiddleware);
 const corsOption = {
-    origin: "*",
+  origin: "*",
 };
 app.use(cors(corsOption));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // app.use("/api/v1/uploads", express.static("uploads"));
-baseUrl = "/api/v1/"
+baseUrl = "/api/v1/";
 app.use(`${baseUrl}user`, userRoutes);
 app.use(`${baseUrl}sod-eod`, sodEodRoutes);
 app.engine("hbs", exphbs.engine({ extname: "hbs", defaultLayout: "main" }));
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "../views"));
 // Serve static files
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "../public")));
+
 app.get("/login", (req, res) => {
-    res.render("login",);
+  res.render("login");
 });
 app.get("/register", (req, res) => {
-    res.render("register",);
+  res.render("register");
 });
 //Not Found Error
 app.use(notFoundError);
