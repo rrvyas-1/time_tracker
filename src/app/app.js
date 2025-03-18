@@ -26,24 +26,26 @@ app.use(bodyParser.json());
 baseUrl = "/api/v1/";
 app.use(`${baseUrl}user`, userRoutes);
 app.use(`${baseUrl}sod-eod`, sodEodRoutes);
-app.engine('hbs', exphbs.engine({
-  extname: 'hbs',
-  defaultLayout: 'main',
-  helpers: {
-    log: function (data) {
-      console.log("Handlebars Log:", data);
-      return ""; // Handlebars requires a return value, so return an empty string
+app.engine(
+  "hbs",
+  exphbs.engine({
+    extname: "hbs",
+    defaultLayout: "main",
+    helpers: {
+      log: function (data) {
+        console.log("Handlebars Log:", data);
+        return "";
+      },
     },
-  },
-  // layoutsDir: __dirname + '/views/layouts/'
-}));
+  })
+);
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "../views"));
 // Serve static files
 app.use(express.static(path.join(__dirname, "../public")));
 
 app.get("/login", (req, res) => {
-  res.render("auth/login",);
+  res.render("auth/login");
 });
 
 app.get("/register", (req, res) => {

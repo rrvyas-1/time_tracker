@@ -1,13 +1,8 @@
-
 <script
   src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"
 ></script>
 
-
 <script type="module" src="/js/admin/get-all-user.js"></script>
-
-
-
 <div class="bg-white shadow-lg rounded-lg p-6">
   <h2 class="text-2xl font-semibold text-gray-800 mb-6">Users Management</h2>
 
@@ -31,17 +26,17 @@
     </table>
   </div>
 </div>
+
 <script id="user-template" type="text/x-handlebars-template">
   {{log users}}
   {{#each users}}
     <tr class="border-b border-gray-300"> <td class="p-4">{{userName}}</td> <td
     class="p-4">{{email}}</td> <td class="p-4">{{designation}}</td> <td
-    class="p-4">${{salary}}</td> <td class="p-4 text-center">{{#if
-      verified
-    }}✅{{else}}❌{{/if}}</td> <td class="p-4">{{formatDate creationDate}}</td>
-    <td class="p-4">{{formatDate loggedAt}}</td> <td class="p-4 text-center">
-    <button class="bg-blue-500 text-white px-4 py-2 rounded">Edit</button>
-    <button class="bg-red-500 text-white px-4 py-2 rounded">Delete</button>
-    </td> </tr>
+    class="p-4">${{salary}}</td> <td class="p-4 text-center">
+    {{#if isVerified}}✅{{else}}❌{{/if}}
+    </td> <td class="p-4">{{createdAt}}</td> <td class="p-4">{{loggedAt}}</td>
+    <td class="p-4 text-center"> <button class="bg-blue-500 text-white px-4 py-2
+    rounded">Edit</button> <button class="bg-red-500 text-white px-4 py-2
+    rounded">Delete</button> </td> </tr>
   {{/each}}
 </script>
