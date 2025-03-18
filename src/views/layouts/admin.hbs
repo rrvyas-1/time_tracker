@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    {{!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> --}}
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("-translate-x-full");
+        }
+    </script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Top Navbar -->
+    <header class="bg-white shadow-md p-4 flex justify-between items-center md:hidden">
+        <h2 class="text-lg font-semibold text-gray-700">Admin Panel</h2>
+        <button onclick="toggleSidebar()" class="text-gray-700 focus:outline-none">
+            ☰
+        </button>
+    </header>
+
+    <div class="flex h-screen">
+        <!-- Sidebar (Hidden on Small Screens) -->
+        <aside id="sidebar" class="w-64 bg-gray-900 text-white p-5 fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
+            {{> adminSidebar }}  <!-- Sidebar Partial -->
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6 md:ml-64 transition-all duration-300">
+            {{!-- <header class="bg-white shadow-md p-4 rounded-lg hidden md:block">
+                <h2 class="text-xl font-semibold text-gray-700">Dashboard</h2>
+            </header> --}}
+
+            <section class="mt-6">
+                {{{body}}}  <!-- Dynamic content goes here -->
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>
