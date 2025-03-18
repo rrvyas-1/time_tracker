@@ -23,24 +23,26 @@ async function fetchUsers() {
         }
 
         const data = await response.json();
+
         renderUsers(data.data);
+        // renderUsers([{ name: "John Doe", email: "john@example.com", created_at: "2023-06-15T12:34:56Z" }]);
     } catch (error) {
         console.error("Error fetching users:", error);
     }
 }
+document.addEventListener("DOMContentLoaded", fetchUsers);
 
 function renderUsers(users) {
-    if (typeof Handlebars === "undefined") {
-        console.error("Handlebars is not loaded!");
+    console.log("🚀 Rendering Users:", users); // Check if users array is available
+
+    if (!users || !Array.isArray(users) || users.length === 0) {
+        console.error("⚠️ No users found or users is not an array!");
         return;
-    }
-    else {
-        console.log("Handlebars is loaded"); 
     }
 
     const templateElement = document.getElementById("user-template");
     if (!templateElement) {
-        console.error("Template not found in the DOM!");
+        console.error("⚠️ Template not found in the DOM!");
         return;
     }
 
@@ -57,11 +59,44 @@ function renderUsers(users) {
         });
     });
 
-    document.getElementById("user-list").innerHTML = template({ users });
-    console.log(document.getElementById("user-list").innerHTML);
-    
+    const htmlOutput = template({ users });
+
+    document.getElementById("user-list").innerHTML = htmlOutput;
+
+    console.log("🛠️ Rendered HTML:", htmlOutput);
 }
 
-// Load data after the page is fully loaded
-document.addEventListener("DOMContentLoaded", fetchUsers);
+
+// function renderUsers(users) {
+//     if (typeof Handlebars === "undefined") {
+//         console.error("Handlebars is not loaded!");
+//         return;
+//     }
+//     else {
+//         console.log("Handlebars is loaded");
+//     }
+
+//     const templateElement = document.getElementById("user-template");
+//     if (!templateElement) {
+//         console.error("Template not found in the DOM!");
+//         return;
+//     }
+
+//     const templateSource = templateElement.innerHTML;
+//     const template = Handlebars.compile(templateSource);
+
+//     Handlebars.registerHelper("formatDate", function (dateString) {
+//         if (!dateString) return "N/A";
+//         const date = new Date(dateString);
+//         return date.toLocaleDateString("en-US", {
+//             year: "numeric",
+//             month: "short",
+//             day: "2-digit",
+//         });
+//     });
+
+//     document.getElementById("user-list").innerHTML = template({ users });
+//     console.log(document.getElementById("user-list").innerHTML);
+// }
+
 
