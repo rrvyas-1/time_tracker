@@ -29,28 +29,6 @@ async function fetchUsers() {
     console.error("Error fetching users:", error);
   }
 }
-document.addEventListener("DOMContentLoaded", function () {
-  console.log("🚀 DOM fully loaded!");
-
-  setTimeout(() => {
-    const templateElement = document.getElementById("user-template");
-    if (!templateElement) {
-      console.error(
-        "⚠️ Template not found! Make sure it's inside get-all-users.hbs."
-      );
-      return;
-    }
-
-    // if (!templateElement.innerHTML.trim()) {
-    //   console.error(
-    //     "⚠️ Template is empty! Ensure it contains Handlebars markup."
-    //   );
-    //   return;
-    // }
-
-    fetchUsers(); // Call your API fetch function only if template exists
-  }, 500); // Small delay to ensure everything is loaded
-});
 
 function renderUsers(users) {
   console.log("🚀 Rendering Users:", users);
@@ -93,3 +71,26 @@ function renderUsers(users) {
     console.error("❌ Handlebars is not loaded!");
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("🚀 DOM fully loaded!");
+
+  setTimeout(async () => {
+    const templateElement = document.getElementById("user-template");
+    if (!templateElement) {
+      console.error(
+        "⚠️ Template not found! Make sure it's inside get-all-users.hbs."
+      );
+      return;
+    }
+
+    if (!templateElement.innerHTML.trim()) {
+      console.error(
+        "⚠️ Template is empty! Ensure it contains Handlebars markup."
+      );
+      return;
+    }
+
+    await fetchUsers(); // Call your API fetch function only if template exists
+  }, 500); // Small delay to ensure everything is loaded
+});
