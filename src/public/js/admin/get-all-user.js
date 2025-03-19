@@ -28,6 +28,7 @@ export async function fetchUsers() {
     renderUsers(data.data);
   } catch (error) {
     console.error("Error fetching users:", error);
+    renderUsers([])
   }
 }
 
