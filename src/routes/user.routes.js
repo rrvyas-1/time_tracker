@@ -29,7 +29,7 @@ userRoutes.get(
   isAuthenticated(User),
   UserController.getSingleUser
 );
-userRoutes.put("/remove", isAuthenticated(User), UserController.removeUser);
+userRoutes.delete("/remove", isAuthenticated(User), UserController.removeUser);
 userRoutes.get(
   "/deleted-user",
   isAuthenticated(User),

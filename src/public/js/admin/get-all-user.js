@@ -1,6 +1,7 @@
 import { getTokenFromIndexedDB } from "../database/db.js";
 
-async function fetchUsers() {
+
+export async function fetchUsers() {
   const token = await getTokenFromIndexedDB();
   if (!token) {
     console.error("No token found!");
@@ -11,7 +12,7 @@ async function fetchUsers() {
     const response = await fetch("http://localhost:2025/api/v1/user/get-all", {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       credentials: "include",
@@ -30,49 +31,7 @@ async function fetchUsers() {
   }
 }
 
-function renderUsers(users) {
-  console.log("🚀 Rendering Users:", users);
-
-  if (!users || !Array.isArray(users) || users.length === 0) {
-    console.error("⚠️ No users found or users is not an array!");
-    return;
-  }
-
-  const templateElement = document.getElementById("user-template");
-  console.log("🔎 Template Element:", templateElement);
-
-  if (!templateElement) {
-    console.error("⚠️ Template not found in the DOM!");
-    return;
-  }
-
-  const templateSource = templateElement.innerHTML.trim();
-  console.log("📜 Template Source:", templateSource);
-
-  const template = Handlebars.compile(templateSource);
-
-  Handlebars.registerHelper("formatDate", function (dateString) {
-    if (!dateString) return "N/A";
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "2-digit",
-    });
-  });
-
-  const htmlOutput = template({ users });
-
-  document.getElementById("user-list").innerHTML = htmlOutput;
-
-  console.log("🛠️ Rendered HTML:", htmlOutput);
-  console.log("🔎 Checking Handlebars:", Handlebars);
-  if (!window.Handlebars) {
-    console.error("❌ Handlebars is not loaded!");
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   console.log("🚀 DOM fully loaded!");
 
   setTimeout(async () => {
@@ -83,14 +42,57 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       return;
     }
-
-    if (!templateElement.innerHTML.trim()) {
-      console.error(
-        "⚠️ Template is empty! Ensure it contains Handlebars markup."
-      );
-      return;
-    }
-
-    await fetchUsers(); // Call your API fetch function only if template exists
-  }, 500); // Small delay to ensure everything is loaded
+    await fetchUsers();
+  }, 400);
 });
+
+
+function renderUsers(users) {
+  console.log("🚀 Rendering Users:", users);
+
+  const userList = document.getElementById("user-list");
+  userList.innerHTML = "";
+
+  if (!users || !Array.isArray(users) || users.length === 0) {
+    console.error("⚠️ No users found or users is not an array!");
+    userList.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-gray-500">No users found</td></tr>`;
+    return;
+  }
+
+  users.forEach(user => {
+    const tr = document.createElement("tr");
+    tr.className = "border-b border-gray-300";
+
+    tr.innerHTML = `
+            <td class="p-4">${user.userName || "N/A"}</td>
+            <td class="p-4">${user.email || "N/A"}</td>
+            <td class="p-4">${user.designation || "N/A"}</td>
+            <td class="p-4">${user.salary || "0.00"}</td>
+            <td class="p-4 text-center">${user.isVerified ? "✅" : "❌"}</td>
+            <td class="p-4">${formatDate(user.createdAt)}</td>
+            <td class="p-4">${formatDate(user.loggedAt)}</td>
+            <td class="p-4 text-center">
+                <button class="bg-blue-500 text-white px-4 py-2 rounded">Edit</button>
+                <button class="delete-user-btn bg-red-500 text-white px-4 py-2 rounded" data-user-id=${user._id}>Delete</button>
+            </td>
+        `;
+
+    userList.appendChild(tr);
+  });
+}
+
+// Helper function for date formatting
+function formatDate(dateString) {
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    });
+}
+
+
+
+
+
