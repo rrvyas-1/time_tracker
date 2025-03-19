@@ -30,16 +30,15 @@ document.getElementById("deleted-users-btn").addEventListener("click", async () 
     }
 });
 
-// Function to render deleted users in the modal
 function renderDeletedUsers(users) {
-    console.log("🚀 Rendering Users:", users);
+    console.log("🚀 Rendering Deleted Users:", users);
 
-    const userList = document.getElementById("deleted-user-template");
-    userList.innerHTML = "";
+    const deletedUserList = document.getElementById("deleted-user-list");
+    deletedUserList.innerHTML = "";
 
     if (!users || !Array.isArray(users) || users.length === 0) {
-        console.error("⚠️ No users found or users is not an array!");
-        userList.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-gray-500">No users found</td></tr>`;
+        console.error("⚠️ No deleted users found or users is not an array!");
+        deletedUserList.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500">No deleted users found</td></tr>`;
         return;
     }
 
@@ -53,20 +52,16 @@ function renderDeletedUsers(users) {
             <td class="p-4">${user.designation || "N/A"}</td>
             <td class="p-4">${user.salary || "0.00"}</td>
             <td class="p-4 text-center">${user.isVerified ? "✅" : "❌"}</td>
-            <td class="p-4">${formatDate(user.createdAt)}</td>
-            <td class="p-4">${formatDate(user.loggedAt)}</td>
-            <td class="p-4 text-center">
-                <button class="bg-blue-500 text-white px-4 py-2 rounded">Edit</button>
-                <button class="delete-user-btn bg-red-500 text-white px-4 py-2 rounded" data-user-id=${user._id}>Delete</button>
-            </td>
+            <td class="p-4">${formatDate(user.updatedAt)}</td>
         `;
 
-        userList.appendChild(tr);
+        deletedUserList.appendChild(tr);
     });
-    // const templateSource = document.getElementById("deleted-user-template").innerHTML;
-    // const template = Handlebars.compile(templateSource);
-    // const html = template({ users });
-    // document.getElementById("deleted-user-list").innerHTML = html;
+}
+
+function formatDate(dateString) {
+    if (!dateString) return "N/A";
+    return new Date(dateString).toLocaleString();
 }
 
 // Close the modal
