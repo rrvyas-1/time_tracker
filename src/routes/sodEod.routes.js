@@ -7,6 +7,6 @@ const SodEodController = require("../controllers/sodEod.controller")
 const sodEodRoutes = express.Router()
 
 sodEodRoutes.post("/create-sod-eod", isAuthenticated(User), roleRestriction("user"), SodEodController.addSodEod)
-
+sodEodRoutes.get("/get-all", isAuthenticated(User), SodEodController.getAllSodEod)
 
 module.exports =sodEodRoutes

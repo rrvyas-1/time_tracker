@@ -1,1 +1,32 @@
-Hi
+<div class="bg-[var(--primary-color)] shadow-md rounded-lg p-6 text-white">
+    <h2 class="text-2xl font-bold text-[var(--secondary-color)] mb-4">📊 User Dashboard</h2>
+
+    <!-- Table -->
+    <div class="overflow-x-auto">
+        <table class="min-w-full border border-[var(--secondary-color)] rounded-lg">
+            <thead>
+                <tr class="bg-[var(--primary-color)] text-white uppercase text-sm">
+                    <th class="px-4 py-3 text-center">📅 Date</th>
+                    <th class="px-4 py-3 text-center">⏰ Start Day</th>
+                    {{!-- <th class="px-4 py-3 text-left">🌅 Start Day Tasks</th> --}}
+                    <th class="px-4 py-3 text-center">⏰ End Day Time</th>
+                    {{!-- <th class="px-4 py-3 text-left">🌙 End Day Tasks</th> --}}
+                </tr>
+            </thead>
+            <tbody id="sod-eod-list">
+                <tr>
+                    <td colspan="5" class="p-4 text-center text-gray-500">Loading...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    :root {
+        --primary-color: #511C29;
+        --secondary-color: #A29C9B;
+    }
+</style>
+
+<script type="module" src="/js/user/fetchSodEod.js"></script>

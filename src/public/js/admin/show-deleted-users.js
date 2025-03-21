@@ -21,7 +21,7 @@ document.getElementById("deleted-users-btn").addEventListener("click", async () 
         }
 
         const data = await response.json();
-        renderDeletedUsers(data.users);
+        renderDeletedUsers(data.data);
         document.getElementById("deleted-users-modal").classList.remove("hidden");
 
     } catch (error) {

@@ -1,5 +1,17 @@
 const mongoose = require("mongoose");
 
+const TaskSchema = new mongoose.Schema({
+    description: {
+        type: String,
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ["todo", "inprogress", "done"],
+        default: "todo"
+    }
+});
+
 const SODEODSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -7,27 +19,19 @@ const SODEODSchema = new mongoose.Schema({
         required: true
     },
     date: {
-        type: String,
+        type: Date,
         required: true
     },
-    sodTime: {
-        type: Date,
-        default: null
-    }, 
-    eodTime: {
-        type: Date,
-        default:null
-    }, 
-    sodNote: {
-        type: String,
-        default: ""
+    sod: {
+        time: { type: Date, default: null },
+        tasks: [TaskSchema]
     },
-    eodNote: {
-        type: String,
-        default: ""
-    },
+    eod: {
+        time: { type: Date, default: null },
+        tasks: [TaskSchema]
+    }
 }, {
-    timestamps:true,
+    timestamps: true
 });
 
 SODEODSchema.index({ userId: 1, date: 1 }, { unique: true });

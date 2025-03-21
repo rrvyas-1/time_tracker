@@ -1,4 +1,4 @@
-<div class="bg-white shadow-lg rounded-lg p-6">
+<div class="bg-white shadow-lg rounded-lg p-6 ">
   <div class="flex justify-between items-center mb-6">
     <h2 class="text-2xl font-semibold text-gray-800">Users Management</h2>
     <div>
@@ -78,14 +78,16 @@
 
 <!-- Deleted Users Modal (Hidden by Default) -->
 <div id="deleted-users-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl max-h-[90vh] overflow-hidden">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-semibold">Deleted Users</h2>
-      <button id="close-deleted-users-modal" class="text-gray-500 hover:text-gray-700">✖</button>
+      <h2 class="text-2xl font-semibold">Deleted Users</h2>
+      <button id="close-deleted-users-modal" class="text-gray-500 hover:text-gray-700 text-2xl">✖</button>
     </div>
-    <div class="overflow-x-auto">
+
+    <!-- Scrollable Table Container (Hides Scrollbar with Tailwind) -->
+    <div class="border border-gray-300 rounded-lg max-h-[75vh] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
       <table class="w-full text-left border-collapse">
-        <thead class="bg-gray-800 text-white">
+        <thead class="bg-gray-800 text-white sticky top-0 z-10">
           <tr>
             <th class="p-4">Username</th>
             <th class="p-4">Email</th>
@@ -95,7 +97,7 @@
             <th class="p-4">Deletion Date</th>
           </tr>
         </thead>
-        <tbody id="deleted-user-list">
+        <tbody id="deleted-user-list" class="divide-y divide-gray-300 bg-white">
           <script id="deleted-user-template" type="text/x-handlebars-template">
             
           </script>
@@ -104,6 +106,10 @@
     </div>
   </div>
 </div>
+
+
+
+
 
 
 <script type="module" src="/js/admin/get-all-user.js"></script>

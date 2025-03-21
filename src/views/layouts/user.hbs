@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary-color: #1E3A8A; /* Dark Blue */
+            --secondary-color: #38BDF8; /* Light Blue */
+            --button-hover: #2563EB; /* Brighter Blue */
+            --start-day: #22C55E; /* Green */
+            --end-day: #EF4444; /* Red */
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900 flex flex-col min-h-screen">
+
+    <!-- Navbar -->
+    <header class="bg-[var(--primary-color)] text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">Time Tracker</h1>
+            <nav>
+                <div class="flex space-x-4">
+                    <button class="bg-[var(--start-day)] px-4 py-2 rounded text-white hover:bg-green-600 transition duration-300">
+                        Start Day
+                    </button>
+                    <button class="bg-[var(--end-day)] px-4 py-2 rounded text-white hover:bg-red-500 transition duration-300">
+                        End Day
+                    </button>
+                    <a href="/logout" class="bg-[var(--secondary-color)] text-white px-4 py-2 rounded hover:bg-[var(--button-hover)] transition duration-300">
+                        Log Out
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Wrapper -->
+    <main class="container mx-auto p-6 flex-1 bg-gray-100 shadow-md rounded-lg">
+        {{{body}}}  <!-- This will render the content of child templates -->
+    </main>
+
+    <!-- Footer (Sticky at Bottom) -->
+    <footer class="text-center p-4 bg-[var(--primary-color)] text-white mt-auto">
+        <p>&copy; 2025 ITFuturz. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
