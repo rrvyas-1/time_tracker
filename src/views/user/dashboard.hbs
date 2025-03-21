@@ -1,32 +1,111 @@
-<div class="bg-[var(--primary-color)] shadow-md rounded-lg p-6 text-white">
-    <h2 class="text-2xl font-bold text-[var(--secondary-color)] mb-4">📊 User Dashboard</h2>
+<div
+  class="bg-primary shadow-lg rounded-xl p-6 text-textPrimary h-[80vh] flex flex-col"
+>
+  <!-- Dashboard Header with Buttons on the Same Line -->
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold text-secondary">📊 User Dashboard</h2>
 
-    <!-- Table -->
-    <div class="overflow-x-auto">
-        <table class="min-w-full border border-[var(--secondary-color)] rounded-lg">
-            <thead>
-                <tr class="bg-[var(--primary-color)] text-white uppercase text-sm">
-                    <th class="px-4 py-3 text-center">📅 Date</th>
-                    <th class="px-4 py-3 text-center">⏰ Start Day</th>
-                    {{!-- <th class="px-4 py-3 text-left">🌅 Start Day Tasks</th> --}}
-                    <th class="px-4 py-3 text-center">⏰ End Day Time</th>
-                    {{!-- <th class="px-4 py-3 text-left">🌙 End Day Tasks</th> --}}
-                </tr>
-            </thead>
-            <tbody id="sod-eod-list">
-                <tr>
-                    <td colspan="5" class="p-4 text-center text-gray-500">Loading...</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="flex space-x-4">
+      <button
+        id="start-day-btn"
+        class="bg-[var(--start-day)] px-4 py-2 rounded text-white hover:bg-green-600 transition duration-300"
+      >
+        Start Day
+      </button>
+      <button
+        id="end-day-btn"
+        class="bg-[var(--end-day)] px-4 py-2 rounded text-white hover:bg-red-500 transition duration-300"
+      >
+        End Day
+      </button>
     </div>
+  </div>
+
+  <!-- Table Container -->
+  <div class="rounded-lg shadow-md flex-grow overflow-hidden">
+    <!-- Scrollable Table Container -->
+    <div class="overflow-y-auto max-h-[60vh]">
+      <table class="min-w-full border border-secondary rounded-lg">
+        <!-- Sticky Table Header -->
+        <thead
+          class="bg-secondary text-header uppercase text-sm font-semibold sticky top-0 z-10"
+        >
+          <tr class="bg-secondary">
+            <th class="px-6 py-4 text-center w-1/3">📅 Date</th>
+            <th class="px-6 py-4 text-center w-1/3">⏰ Start Day</th>
+            <th class="px-6 py-4 text-center w-1/3">⏰ End Day Time</th>
+          </tr>
+        </thead>
+        <!-- Scrollable Table Body -->
+        <tbody
+          id="sod-eod-list"
+          class="bg-white text-body divide-y divide-gray-300"
+        >
+          <tr class="hover:bg-gray-100 transition">
+            <td
+              colspan="3"
+              class="p-4 text-center text-gray-500"
+            >Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+<div
+  id="task-modal"
+  class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50"
+>
+  <div
+    class="bg-white w-full max-w-lg p-4 rounded-lg shadow-lg flex flex-col max-h-[80vh]"
+  >
+
+    <!-- Modal Header (Sticky) -->
+    <div
+      id="modal-header"
+      class="sticky top-0 bg-white p-4 border-b z-10 flex justify-between items-center"
+    >
+      <h2 class="text-lg font-semibold text-[var(--primary-color)]">📝 Start of
+        Day Tasks</h2>
+      <button
+        id="close-modal-btn"
+        class="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400 transition"
+      >
+        ✖
+      </button>
+    </div>
+
+    <!-- Scrollable Task List -->
+    <div id="task-list" class="overflow-y-auto max-h-[50vh] p-4"></div>
+
+    <!-- Modal Footer (Sticky) -->
+    <div
+      id="modal-footer"
+      class="sticky bottom-0 bg-white p-4 border-t z-10 flex justify-between items-center"
+    >
+      <a
+        href="#"
+        id="add-task-btn"
+        class="text-blue-500 hover:text-blue-700 text-sm"
+      >+ Add Task</a>
+      <button
+        id="save-tasks-btn"
+        class="bg-green-500 px-4 py-2 rounded text-white hover:bg-green-600 transition"
+      >
+        Save Tasks
+      </button>
+    </div>
+  </div>
 </div>
 
+<!-- Tailwind Custom Colors -->
 <style>
-    :root {
-        --primary-color: #511C29;
-        --secondary-color: #A29C9B;
-    }
+  :root { --primary-color: #1E293B; /* Dark Blue-Gray */ --secondary-color:
+  #FACC15; /* Bright Yellow */ --textPrimary: #EAEAEA; /* Light Gray */
+  --header: #1E293B; /* Dark Blue-Gray */ --body: #374151; /* Gray-800 */
+  --start-day: #22C55E; /* Green */ --end-day: #EF4444; /* Red */ }
 </style>
 
+<script type="module" src="/js/user/createSod.js"></script>
 <script type="module" src="/js/user/fetchSodEod.js"></script>

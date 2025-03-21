@@ -9,7 +9,8 @@ const {
 
 const UserController = {
   addUser: asyncHandler(async (req, res) => {
-    const { userName, email, password, designation, salary, isVerified } = req.body;
+    const { userName, email, password, designation, salary, isVerified } =
+      req.body;
     const userNameOrEmailExists = await User.findOne({
       $or: [{ userName }, { email }],
     });
@@ -22,7 +23,7 @@ const UserController = {
       password: await hashPassword(password),
       designation,
       salary,
-      isVerified
+      isVerified,
     });
 
     return ApiResponse.success(
