@@ -1,112 +1,18 @@
-// document.addEventListener("DOMContentLoaded", function () {
-//   const startDayBtn = document.getElementById("start-day-btn");
-//   const taskModal = document.getElementById("task-modal");
-//   const closeModalBtn = document.getElementById("close-modal-btn");
-//   const addTaskBtn = document.getElementById("add-task-btn");
-//   const saveTasksBtn = document.getElementById("save-tasks-btn");
-//   const taskList = document.getElementById("task-list");
 
 import { getTokenFromIndexedDB } from "../database/db.js";
 
-//   if (!startDayBtn || !taskModal) {
-//     console.error("Start Day button or Task Modal not found!");
-//     return;
-//   }
+const modal = document.getElementById("task-modal");
+const modalHeader = document.getElementById("modal-header").querySelector("h2");
 
-//   const statusOptions = ["todo", "inprogress", "done"];
-//   let taskCount = 0;
+function openModal(type) {
+  modalHeader.textContent =
+    type === "start" ? "📝 Start of Day Tasks" : "📝 End of Day Tasks";
+  modal.classList.remove("hidden");
+}
 
-//   // ✅ Open Modal
-//   startDayBtn.addEventListener("click", () => {
-//     taskModal.classList.remove("hidden", "opacity-0");
-//     taskModal.classList.add(
-//       "flex",
-//       "opacity-100",
-//       "transition-opacity",
-//       "duration-300"
-//     );
-//   });
+document.getElementById("start-day-btn").addEventListener("click", () => openModal("start"));
+document.getElementById("end-day-btn").addEventListener("click", () => openModal("end"));
 
-//   // ✅ Close Modal
-//   closeModalBtn.addEventListener("click", () => {
-//     taskModal.classList.add("opacity-0");
-//     taskList.innerHTML = "";
-//     taskCount = 0;
-//     setTimeout(() => {
-//       taskModal.classList.add("hidden");
-//     }, 300);
-//   });
-
-//   // ✅ Add New Task Input with Interactive Design
-//   addTaskBtn.addEventListener("click", (event) => {
-//     event.preventDefault();
-
-//     taskCount++;
-
-//     const taskWrapper = document.createElement("div");
-//     taskWrapper.className =
-//       "task-item flex items-center gap-2 p-3 border rounded-lg bg-gray-100 shadow-sm transition-transform duration-300 scale-95 hover:scale-100";
-
-//     // Task Input
-//     const newTask = document.createElement("textarea");
-//     newTask.className =
-//       "task-input w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400";
-//     newTask.placeholder = `Task ${taskCount}...`;
-
-//     // Status Dropdown
-//     const statusDropdown = document.createElement("select");
-//     statusDropdown.className =
-//       "task-status p-2 border rounded-lg bg-white shadow-sm";
-//     statusOptions.forEach((status) => {
-//       const option = document.createElement("option");
-//       option.value = status;
-//       option.textContent = status.charAt(0).toUpperCase() + status.slice(1);
-//       statusDropdown.appendChild(option);
-//     });
-
-//     // Remove Task Button
-//     const removeLink = document.createElement("button");
-//     removeLink.textContent = "❌";
-//     removeLink.className =
-//       "remove-task text-red-500 text-lg hover:text-red-700 transition";
-//     removeLink.addEventListener("click", () => {
-//       taskWrapper.classList.add("scale-90", "opacity-0");
-//       setTimeout(() => taskWrapper.remove(), 200);
-//       taskCount--;
-//     });
-
-//     taskWrapper.appendChild(newTask);
-//     taskWrapper.appendChild(statusDropdown);
-//     taskWrapper.appendChild(removeLink);
-//     taskList.appendChild(taskWrapper);
-//   });
-
-//   // ✅ Save Tasks
-//   saveTasksBtn.addEventListener("click", () => {
-//     const taskItems = document.querySelectorAll(".task-item");
-//     const tasksArray = [];
-
-//     taskItems.forEach((taskItem) => {
-//       const taskInput = taskItem.querySelector(".task-input");
-//       const statusDropdown = taskItem.querySelector(".task-status");
-
-//       if (taskInput.value.trim() !== "") {
-//         tasksArray.push({
-//           description: taskInput.value.trim(),
-//           status: statusDropdown.value,
-//         });
-//       }
-//     });
-
-//     console.log("Saved Tasks:", tasksArray);
-//     taskList.innerHTML = "";
-//     taskCount = 0;
-//     taskModal.classList.add("opacity-0");
-//     setTimeout(() => {
-//       taskModal.classList.add("hidden");
-//     }, 300);
-//   });
-// });
 
 document.addEventListener("DOMContentLoaded", function () {
   const startDayBtn = document.getElementById("start-day-btn");
@@ -124,12 +30,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const statusOptions = ["todo", "inprogress", "done"];
   let taskCount = 0;
-  let currentType = "sod"; // Default type
+  let currentType = "sod";
 
-  // ✅ Get today's date in 'YYYY-MM-DD' format
   const today = new Date().toISOString().split("T")[0];
 
-  // ✅ Check if SOD or EOD was submitted today
   const lastSubmittedDate = localStorage.getItem("lastSubmittedDate");
 
   // If today's date is different from the last submitted date, enable the buttons
@@ -142,7 +46,6 @@ document.addEventListener("DOMContentLoaded", function () {
     endDayBtn.classList.remove("bg-gray-400", "cursor-not-allowed");
   }
 
-  // ✅ Load Button States from Local Storage
   if (localStorage.getItem("sodSubmitted") === "true") {
     startDayBtn.disabled = true;
     startDayBtn.classList.add("bg-gray-400", "cursor-not-allowed");
@@ -151,8 +54,6 @@ document.addEventListener("DOMContentLoaded", function () {
     endDayBtn.disabled = true;
     endDayBtn.classList.add("bg-gray-400", "cursor-not-allowed");
   }
-
-  // ✅ Open Modal (SOD or EOD)
   function openModal(type) {
     currentType = type; // Set the type (SOD or EOD)
     taskModal.classList.remove("hidden", "opacity-0");
@@ -164,11 +65,9 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   }
 
-  // ✅ Attach Event Listeners to Buttons
   startDayBtn.addEventListener("click", () => openModal("sod"));
   endDayBtn.addEventListener("click", () => openModal("eod"));
 
-  // ✅ Close Modal
   closeModalBtn.addEventListener("click", () => {
     taskModal.classList.add("opacity-0");
     taskList.innerHTML = "";
@@ -178,7 +77,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 300);
   });
 
-  // ✅ Add New Task
   addTaskBtn.addEventListener("click", (event) => {
     event.preventDefault();
     taskCount++;
@@ -187,13 +85,11 @@ document.addEventListener("DOMContentLoaded", function () {
     taskWrapper.className =
       "task-item flex items-center gap-2 p-3 border rounded-lg bg-gray-100 shadow-sm transition-transform duration-300 scale-95 hover:scale-100";
 
-    // Task Input
     const newTask = document.createElement("textarea");
     newTask.className =
       "task-input w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400";
     newTask.placeholder = `Task ${taskCount}...`;
 
-    // Status Dropdown
     const statusDropdown = document.createElement("select");
     statusDropdown.className =
       "task-status p-2 border rounded-lg bg-white shadow-sm";
@@ -204,7 +100,6 @@ document.addEventListener("DOMContentLoaded", function () {
       statusDropdown.appendChild(option);
     });
 
-    // Remove Task Button
     const removeLink = document.createElement("button");
     removeLink.textContent = "❌";
     removeLink.className =
@@ -221,7 +116,6 @@ document.addEventListener("DOMContentLoaded", function () {
     taskList.appendChild(taskWrapper);
   });
 
-  // ✅ Save Tasks and Send API Request
   saveTasksBtn.addEventListener("click", async () => {
     const taskItems = document.querySelectorAll(".task-item");
     const tasksArray = [];
@@ -243,9 +137,8 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // ✅ Prepare API Payload
     const requestData = {
-      type: currentType, // "sod" or "eod"
+      type: currentType,
       tasks: tasksArray,
     };
 
@@ -273,7 +166,6 @@ document.addEventListener("DOMContentLoaded", function () {
       if (response.ok) {
         alert(`${currentType.toUpperCase()} submitted successfully!`);
 
-        // ✅ Disable Button After Submission
         if (currentType === "sod") {
           startDayBtn.disabled = true;
           startDayBtn.classList.add("bg-gray-400", "cursor-not-allowed");
@@ -284,10 +176,8 @@ document.addEventListener("DOMContentLoaded", function () {
           localStorage.setItem("eodSubmitted", "true");
         }
 
-        // ✅ Store Today's Date as Last Submitted Date
         localStorage.setItem("lastSubmittedDate", today);
 
-        // ✅ Reset Modal
         taskList.innerHTML = "";
         taskCount = 0;
         taskModal.classList.add("opacity-0");
@@ -303,3 +193,128 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+// import { getTokenFromIndexedDB, getFromIndexedDB, saveToIndexedDB } from "../database/db.js";
+
+// document.addEventListener("DOMContentLoaded", async function () {
+//   const startDayBtn = document.getElementById("start-day-btn");
+//   const endDayBtn = document.getElementById("end-day-btn");
+//   const taskModal = document.getElementById("task-modal");
+//   const closeModalBtn = document.getElementById("close-modal-btn");
+//   const addTaskBtn = document.getElementById("add-task-btn");
+//   const saveTasksBtn = document.getElementById("save-tasks-btn");
+//   const taskList = document.getElementById("task-list");
+//   const statusOptions = ["todo", "inprogress", "done"];
+//   let taskCount = 0;
+//   let currentType = "sod";
+//   const today = new Date().toISOString().split("T")[0];
+
+//   async function checkSubmissionStatus() {
+//     const lastSubmittedDate = await getFromIndexedDB("lastSubmittedDate");
+//     if (lastSubmittedDate !== today) {
+//       await saveToIndexedDB("sodSubmitted", "false");
+//       await saveToIndexedDB("eodSubmitted", "false");
+//     }
+
+//     const sodSubmitted = await getFromIndexedDB("sodSubmitted");
+//     const eodSubmitted = await getFromIndexedDB("eodSubmitted");
+
+//     startDayBtn.disabled = sodSubmitted === "true";
+//     endDayBtn.disabled = eodSubmitted === "true";
+//     if (sodSubmitted === "true") startDayBtn.classList.add("bg-gray-400", "cursor-not-allowed");
+//     if (eodSubmitted === "true") endDayBtn.classList.add("bg-gray-400", "cursor-not-allowed");
+//   }
+
+//   await checkSubmissionStatus();
+
+//   function openModal(type) {
+//     currentType = type;
+//     taskModal.classList.remove("hidden", "opacity-0");
+//     taskModal.classList.add("flex", "opacity-100", "transition-opacity", "duration-300");
+//   }
+
+//   startDayBtn.addEventListener("click", () => openModal("sod"));
+//   endDayBtn.addEventListener("click", () => openModal("eod"));
+
+//   closeModalBtn.addEventListener("click", () => {
+//     taskModal.classList.add("opacity-0");
+//     taskList.innerHTML = "";
+//     taskCount = 0;
+//     setTimeout(() => taskModal.classList.add("hidden"), 300);
+//   });
+
+//   addTaskBtn.addEventListener("click", (event) => {
+//     event.preventDefault();
+//     taskCount++;
+//     const taskWrapper = document.createElement("div");
+//     taskWrapper.className = "task-item flex items-center gap-2 p-3 border rounded-lg bg-gray-100 shadow-sm";
+
+//     const newTask = document.createElement("textarea");
+//     newTask.className = "task-input w-full p-2 border rounded-lg";
+//     newTask.placeholder = `Task ${taskCount}...`;
+
+//     const statusDropdown = document.createElement("select");
+//     statusDropdown.className = "task-status p-2 border rounded-lg bg-white";
+//     statusOptions.forEach((status) => {
+//       const option = document.createElement("option");
+//       option.value = status;
+//       option.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+//       statusDropdown.appendChild(option);
+//     });
+
+//     const removeLink = document.createElement("button");
+//     removeLink.textContent = "❌";
+//     removeLink.className = "remove-task text-red-500 text-lg";
+//     removeLink.addEventListener("click", () => {
+//       taskWrapper.remove();
+//       taskCount--;
+//     });
+
+//     taskWrapper.append(newTask, statusDropdown, removeLink);
+//     taskList.appendChild(taskWrapper);
+//   });
+
+//   saveTasksBtn.addEventListener("click", async () => {
+//     const tasksArray = [...document.querySelectorAll(".task-item")].map(taskItem => ({
+//       description: taskItem.querySelector(".task-input").value.trim(),
+//       status: taskItem.querySelector(".task-status").value,
+//     })).filter(task => task.description !== "");
+
+//     if (tasksArray.length === 0) {
+//       alert("Please add at least one task before saving.");
+//       return;
+//     }
+
+//     const requestData = { type: currentType, tasks: tasksArray };
+//     console.log("Sending Data:", requestData);
+
+//     try {
+//       const token = await getTokenFromIndexedDB();
+//       if (!token) {
+//         console.error("No token found!");
+//         return;
+//       }
+//       const response = await fetch("http://localhost:2025/api/v1/sod-eod/create-sod-eod", {
+//         method: "POST",
+//         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+//         body: JSON.stringify(requestData),
+//         credentials: "include",
+//       });
+
+//       if (response.ok) {
+//         alert(`${currentType.toUpperCase()} submitted successfully!`);
+//         await saveToIndexedDB(currentType === "sod" ? "sodSubmitted" : "eodSubmitted", "true");
+//         await saveToIndexedDB("lastSubmittedDate", today);
+//         checkSubmissionStatus();
+//         taskList.innerHTML = "";
+//         taskModal.classList.add("opacity-0");
+//         setTimeout(() => taskModal.classList.add("hidden"), 300);
+//       } else {
+//         alert(`Failed to submit ${currentType.toUpperCase()}. Try again.`);
+//       }
+//     } catch (error) {
+//       console.error("Error:", error);
+//       alert("Network error. Please try again later.");
+//     }
+//   });
+// });

@@ -16,20 +16,28 @@
       </button>
     </div>
   </div>
+  <div class="mb-4 flex justify-between">
+  <input
+    type="text"
+    id="search-input"
+    placeholder="Search Users..."
+    class="p-2 border rounded w-1/3"
+  />
+</div>
   <div class="overflow-x-auto">
     <table class="w-full text-left border-collapse rounded-lg overflow-hidden">
       <thead class="bg-gray-800 text-white">
-        <tr>
-          <th class="p-4">Username</th>
-          <th class="p-4">Email</th>
-          <th class="p-4">Designation</th>
-          <th class="p-4">Salary</th>
-          <th class="p-4 text-center">Verified</th>
-          <th class="p-4">Creation Date</th>
-          <th class="p-4">Last Login</th>
-          <th class="p-4 text-center">Actions</th>
-        </tr>
-      </thead>
+  <tr>
+    <th class="p-4 cursor-pointer" data-column="username">Username ▲▼</th>
+    <th class="p-4 cursor-pointer" data-column="email">Email ▲▼</th>
+    <th class="p-4 cursor-pointer" data-column="designation">Designation ▲▼</th>
+    <th class="p-4 cursor-pointer" data-column="salary">Salary ▲▼</th>
+    <th class="p-4 text-center">Verified</th>
+    <th class="p-4 cursor-pointer" data-column="creationDate">Creation Date ▲▼</th>
+    <th class="p-4 cursor-pointer" data-column="lastLogin">Last Login ▲▼</th>
+    <th class="p-4 text-center">Actions</th>
+  </tr>
+</thead>
       <tbody id="user-list">
         <script id="user-template" type="text/x-handlebars-template"></script>
       </tbody>
@@ -111,7 +119,7 @@
 
 
 
-
+<script type="module" src="/js/admin/sort-search.js"></script>
 <script type="module" src="/js/admin/get-all-user.js"></script>
 <script type="module" src="/js/admin/create-user.js"></script>
 <script type="module" src="/js/admin/delete-user.js"></script>

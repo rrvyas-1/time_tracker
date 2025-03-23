@@ -1,0 +1,116 @@
+<div class="bg-white shadow-lg rounded-lg p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Work History</h2>
+
+        <!-- Search Input -->
+        <input type="text" id="search-input" class="w-full p-2 border rounded mb-4" placeholder="Search users...">
+
+        <div class="overflow-x-auto">
+            <!-- Table Container -->
+            <table class="w-full border-collapse rounded-lg overflow-hidden">
+                <thead class="bg-gray-800 text-white">
+                    <tr>
+                        <th class="p-4 cursor-pointer" data-column="userName">Username</th>
+                        <th class="p-4 cursor-pointer" data-column="email">Email</th>
+                        <th class="p-4 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="user-list">
+                    <!-- Data will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Handlebars Template -->
+    <script id="user-template" type="text/x-handlebars-template">
+        {{#each users}}
+        <tr class="border-b bg-gray-100 hover:bg-gray-200">
+            <td class="p-4 font-medium">{{this.userName}}</td>
+            <td class="p-4 text-gray-600">{{this.email}}</td>
+            <td class="p-4 text-center">
+                <button class="toggle-history bg-blue-500 text-white px-3 py-1 rounded" data-user="{{this.userName}}">
+                    View History
+                </button>
+            </td>
+        </tr>
+        <tr class="hidden bg-white work-history" data-user="{{this.userName}}">
+            <td colspan="3">
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-2">Work History of {{this.userName}}</h3>
+                    <table class="w-full border">
+                        <thead class="bg-gray-700 text-white">
+                            <tr>
+                                <th class="p-3">Date</th>
+                                <th class="p-3">Start of Day</th>
+                                <th class="p-3">End of Day</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each this.workHistory}}
+                            <tr class="border-b">
+                                <td class="p-3">{{this.date}}</td>
+                                <td class="p-3">{{this.start}}</td>
+                                <td class="p-3">{{this.end}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const searchInput = document.getElementById("search-input");
+            const userList = document.getElementById("user-list");
+            const userTemplate = Handlebars.compile(document.getElementById("user-template").innerHTML);
+            
+            let users = [
+                {
+                    userName: "JohnDoe",
+                    email: "john.doe@example.com",
+                    workHistory: [
+                        { date: "2025-03-20", start: "08:30 AM", end: "05:00 PM" },
+                        { date: "2025-03-21", start: "09:00 AM", end: "06:30 PM" }
+                    ]
+                },
+                {
+                    userName: "JaneSmith",
+                    email: "jane.smith@example.com",
+                    workHistory: [
+                        { date: "2025-03-20", start: "08:00 AM", end: "04:30 PM" },
+                        { date: "2025-03-21", start: "09:15 AM", end: "05:45 PM" }
+                    ]
+                }
+            ];
+
+            function renderUsers() {
+                userList.innerHTML = userTemplate({ users });
+                attachEvents();
+            }
+
+            function attachEvents() {
+                document.querySelectorAll(".toggle-history").forEach(button => {
+                    button.addEventListener("click", () => {
+                        const userName = button.getAttribute("data-user");
+                        const historyRow = document.querySelector(`.work-history[data-user='${userName}']`);
+                        historyRow.classList.toggle("hidden");
+                    });
+                });
+            }
+
+            // Search Functionality
+            searchInput.addEventListener("input", () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                document.querySelectorAll("#user-list tr:not(.work-history)").forEach(row => {
+                    const rowText = row.textContent.toLowerCase();
+                    row.style.display = rowText.includes(searchTerm) ? "" : "none";
+                });
+            });
+
+            // Initial Render
+            renderUsers();
+        });
+    </script>

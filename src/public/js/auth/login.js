@@ -51,7 +51,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
         await saveTokenToIndexedDB(data.data.token);
         alert("Login Successful!");
         if (data.data.isAdmin) {
-            window.location.href = "/admin/dashboard";
+            window.location.href = "/admin/users";
         } else {
             window.location.href = "/user/dashboard";
         }
