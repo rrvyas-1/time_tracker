@@ -85,8 +85,8 @@ function renderTaskSection(title, color, tasks) {
         <h3 class="text-lg font-bold text-${color}-900">${title}</h3>
         <div class="flex space-x-2">
           <span class="text-red-600">🔴 Todo</span>
-          <span class="text-green-600">🟢 In Progress</span>
-          <span class="text-blue-600">🔵 Completed</span>
+          <span class="text-blue-600">🔵 In Progress</span>
+          <span class="text-green-600">🟢 Completed</span>
         </div>
       </div>
       <div class="max-h-48 overflow-y-scroll p-2 no-scrollbar">

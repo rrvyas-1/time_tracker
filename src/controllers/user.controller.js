@@ -82,7 +82,7 @@ const UserController = {
     const allNormalUser = await User.find({
       isAdmin: false,
       isRemoved: false,
-    }).select("-password -__v");
+    }).select("-password -__v -updatedAt -isAdmin -isRemoved -role -workDetails").lean();
     if (allNormalUser.length === 0)
       return ApiResponse.error(res, "Users Not Found", 404);
     return ApiResponse.success(

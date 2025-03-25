@@ -67,7 +67,7 @@ const SodEodController = {
     );
   }),
 
-  getAllSodEod: asyncHandler(async (req, res) => {
+  getAllSodEodUser: asyncHandler(async (req, res) => {
     const userId = req.userAuth._id;
     userFound = await User.findById(userId)
       .select("workDetails")
@@ -77,6 +77,16 @@ const SodEodController = {
     }
     return ApiResponse.success(res, "Data Found", userFound.workDetails);
   }),
+  getAllSodEodByUserId: asyncHandler(async (req, res) => {
+    const userId = req.body.userId;
+    userFound = await User.findById(userId)
+      .select("workDetails")
+      .populate("workDetails");
+    if (!userFound) {
+      return ApiResponse.error(res, "No Data Found", 404);
+    }
+    return ApiResponse.success(res, "Data Found", userFound.workDetails);
+  })
 };
 
 module.exports = SodEodController;
