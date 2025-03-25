@@ -73,8 +73,12 @@ function renderUsers(users) {
             <td class="p-4">${formatDate(user.createdAt)}</td>
             <td class="p-4">${formatDate(user.loggedAt)}</td>
             <td class="p-4 text-center">
-                <button class="bg-blue-500 text-white px-4 py-2 rounded">Edit</button>
-                <button class="delete-user-btn bg-red-500 text-white px-4 py-2 rounded" data-user-id=${user._id}>Delete</button>
+                <button class="work-history-btn bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+                  Work History
+                </button>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Edit</button>
+                <button class="delete-user-btn bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded" data-user-id=${user._id}>Delete</button>
+
             </td>
         `;
 
