@@ -41,13 +41,13 @@ const UserController = {
     const userFound = await User.findOne({
       $or: [{ userName: email }, { email: email }],
     });
-    if (!userFound) return ApiResponse.error(res, "User not registered", 404);
+    if (!userFound) return ApiResponse.error(res, "User not registered", 200);
     if (!(await isPasswordMatched(password, userFound.password)))
-      return ApiResponse.error(res, "Password mismatched", 401);
+      return ApiResponse.error(res, "Password mismatched", 200);
     if (userFound.isVerified == false)
-      return ApiResponse.error(res, "User is not verified", 401);
+      return ApiResponse.error(res, "User is not verified", 200);
     if (userFound.isRemoved)
-      return ApiResponse.error(res, "User no more available or deleted", 401);
+      return ApiResponse.error(res, "User no more available or deleted", 200);
 
     userFound.loggedAt = new Date();
     await userFound.save();
